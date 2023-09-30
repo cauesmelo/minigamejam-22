@@ -5,8 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://dj6y6x84dmd0" path="res://assets/player/Pink_Monster_Jump_8.png" id="3_fd0lc"]
 [ext_resource type="Texture2D" uid="uid://btvxkv0w5wn2" path="res://assets/player/Pink_Monster_Run_6.png" id="4_ptwn8"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x1md5"]
-size = Vector2(15, 26)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qo47r"]
+radius = 6.5
+height = 28.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nhldf"]
 atlas = ExtResource("2_ox7mb")
@@ -150,8 +151,8 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_1ybfg")
 
 [node name="collision" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 2)
-shape = SubResource("RectangleShape2D_x1md5")
+position = Vector2(-0.5, 2)
+shape = SubResource("CapsuleShape2D_qo47r")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vybhr")
