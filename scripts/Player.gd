@@ -5,6 +5,7 @@ extends CharacterBody2D
 var air_jump = false
 var double_jumped = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var ignore_inputs = false
 
 var is_dead = false
 var wait_death = 0.2
@@ -34,10 +35,14 @@ func _physics_process(delta):
 		
 	apply_gravity(delta)
 	
-	if not is_storming:
+	if not is_storming and not ignore_inputs:
 		handle_jump()
 		
 	var input_axis = Input.get_axis("mv_left", "mv_right")
+	
+	if ignore_inputs:
+		input_axis = 0
+		
 	handle_acceleration(input_axis, delta)
 	handle_air_acceleration(input_axis, delta)
 	handle_switch_color()
@@ -160,15 +165,22 @@ func handle_switch_color():
 		# TODO play error sound
 		return
 		
-	if Input.is_action_just_pressed("mv_action"):
-		if color == "white":
-			switch_color("green")
-		elif color == "green":
-			switch_color("blue")
-		elif color == "blue":
+	if Input.is_action_just_pressed("mv_white"):
+		if color != "white":
 			switch_color("white")
+			switch_cooldown = 2.0
+			
+	if Input.is_action_just_pressed("mv_green") and movement_data.green_enabled:
+		if color != "green":
+			switch_color("green")
+			switch_cooldown = 2.0
+			
+	if Input.is_action_just_pressed("mv_blue") and movement_data.blue_enabled:
+		if color != "blue":
+			switch_color("blue")
+			switch_cooldown = 2.0
+			
 	
-		switch_cooldown = 2.0
 			
 	
 func switch_color(color_to):
@@ -209,3 +221,9 @@ func _on_sprite_animation_finished():
 		if curr == "storm_out":
 			is_storming = false
 			animated_sprite_2d.play("idle")
+
+
+func _on_complete(body):
+	if body is CharacterBody2D:
+		ignore_inputs = true
+		world.complete_level()

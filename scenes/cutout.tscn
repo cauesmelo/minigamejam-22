@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=3 uid="uid://dsc7eric2yses"]
+
+[ext_resource type="Shader" path="res://scripts/cutout.gdshader" id="1_shsp8"]
+[ext_resource type="Texture2D" uid="uid://nyicfdsv57w0" path="res://assets/cutout.png" id="2_b3cj4"]
+[ext_resource type="Script" path="res://scripts/cutout.gd" id="3_ua7pn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xyi7v"]
+shader = ExtResource("1_shsp8")
+shader_parameter/scale = 1.0
+shader_parameter/mask = ExtResource("2_b3cj4")
+
+[sub_resource type="Animation" id="Animation_cjwoo"]
+resource_name = "fade_in"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ubj1x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_t56mp"]
+resource_name = "fade_out"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eht2e"]
+_data = {
+"RESET": SubResource("Animation_ubj1x"),
+"fade_in": SubResource("Animation_cjwoo"),
+"fade_out": SubResource("Animation_t56mp")
+}
+
+[node name="ColorRect" type="ColorRect"]
+material = SubResource("ShaderMaterial_xyi7v")
+custom_minimum_size = Vector2(480, 270)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("3_ua7pn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "fade_in"
+libraries = {
+"": SubResource("AnimationLibrary_eht2e")
+}

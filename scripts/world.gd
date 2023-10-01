@@ -6,12 +6,21 @@ var debug_scene = load("res://scenes/level_blue.tscn")
 var death_count = 0
 @onready var canvas = $canvas
 var start_time = 0
+@onready var cutout = canvas.get_node("cutout")
+@onready var result = canvas.get_node("result")
+var is_result = false
 
 
 func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_ESCAPE:
 			get_tree().quit()
+			
+	if event is InputEventKey and event.pressed and is_result:
+		result.visible = false
+		cutout.fade_in()
+		is_result = false
+
 			
 func start():
 	if debug:
@@ -25,7 +34,8 @@ func start():
 	get_node("intro").queue_free()
 	
 	start_time = Time.get_ticks_msec()
-	$canvas.visible = true
+	$canvas.get_node("timer").visible = true
+	$canvas.get_node("deaths").visible = true
 	
 func _process(_delta):
 	var elapsed = Time.get_ticks_msec() - start_time
@@ -43,6 +53,16 @@ func _process(_delta):
 		hours = str("0", hours)
 	
 	$canvas.get_node("timer").text = "{a}:{b}:{c}".format({"a": hours, "b": minutes, "c": seconds})
+
+func complete_level():
+	cutout.fade_out()
+	
+	await get_tree().create_timer(1.5).timeout
+	curr = load("res://scenes/level_blue.tscn")
+	is_result = true
+	get_child(2).queue_free()
+	add_child(curr.instantiate())
+	result.visible = true
 	
 
 

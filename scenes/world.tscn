@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwi4jnrpult3r"]
+[gd_scene load_steps=5 format=3 uid="uid://dwi4jnrpult3r"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_1uut8"]
+[ext_resource type="PackedScene" uid="uid://dsc7eric2yses" path="res://scenes/cutout.tscn" id="2_eyrw6"]
 [ext_resource type="PackedScene" uid="uid://2actbmfggwr7" path="res://scenes/intro.tscn" id="2_orq7s"]
 [ext_resource type="Theme" uid="uid://dqosqwgwrjv6w" path="res://assets/theme.tres" id="3_4gi3g"]
 
@@ -8,7 +9,6 @@
 script = ExtResource("1_1uut8")
 
 [node name="canvas" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="timer" type="RichTextLabel" parent="canvas"]
 offset_left = 8.0
@@ -24,6 +24,20 @@ offset_bottom = 24.0
 theme = ExtResource("3_4gi3g")
 bbcode_enabled = true
 text = "[right]0[/right]"
+
+[node name="cutout" parent="canvas" instance=ExtResource("2_eyrw6")]
+
+[node name="result" type="RichTextLabel" parent="canvas"]
+visible = false
+offset_top = 96.0
+offset_right = 480.0
+offset_bottom = 168.0
+theme = ExtResource("3_4gi3g")
+bbcode_enabled = true
+text = "[center]You got your green back!
+
+
+Press any key to continue[/center]"
 
 [node name="global_cam" type="Camera2D" parent="."]
 position = Vector2(368, 232)
