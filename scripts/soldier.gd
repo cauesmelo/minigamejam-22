@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var movement_data : EnemyMovementData
 @onready var raycasts = [$raycast, $raycast2]
 @onready var txt = $text
+@onready var sprite = get_node(movement_data.color)
 
 var direction = -1
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -15,11 +16,13 @@ var target
 var opacity_mult = 1
 
 func _ready():
+	sprite.visible = true
+	
 	if movement_data.no_walking:
-		$sprite.play("idle")
+		sprite.play("idle")
 		return
 		
-	$sprite.play("run")
+	sprite.play("run")
 	
 
 func _process(delta):
@@ -44,6 +47,8 @@ func _process(delta):
 
 func _physics_process(delta):
 	if movement_data.no_walking:
+		velocity.y += gravity
+		move_and_slide()
 		check_collision()
 		
 		if atk:
@@ -62,7 +67,7 @@ func _physics_process(delta):
 	if moving_timer > movement_data.flip_time:
 		moving_timer = 0
 		direction *= -1
-		$sprite.flip_h = direction == 1
+		sprite.flip_h = direction == 1
 		for raycast in raycasts:
 			raycast.target_position.x *= -1
 			
@@ -91,6 +96,9 @@ func check_collision():
 		if raycast.is_colliding():
 			var collider = raycast.get_collider()
 			
+			if !(collider is CharacterBody2D):
+				break
+			
 			if collider.name != "Player":
 				break
 				
@@ -108,4 +116,4 @@ func kill(node):
 	node.die()
 	target = node.position
 	atk = true
-	$sprite.play("attack")
+	sprite.play("attack")

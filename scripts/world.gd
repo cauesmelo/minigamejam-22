@@ -9,6 +9,7 @@ var start_time = 0
 @onready var cutout = canvas.get_node("cutout")
 @onready var result = canvas.get_node("result")
 var is_result = false
+var is_end = false
 
 
 func _input(event):
@@ -23,6 +24,11 @@ func _input(event):
 
 			
 func start():
+	curr = load("res://scenes/story.tscn")
+	add_child(curr.instantiate())
+	get_node("intro").queue_free()
+	
+func game_on():
 	if debug:
 		curr = debug_scene
 		add_child(curr.instantiate())
@@ -31,13 +37,16 @@ func start():
 		
 	curr = load("res://scenes/level_green.tscn")
 	add_child(curr.instantiate())
-	get_node("intro").queue_free()
+	get_node("story").queue_free()
 	
 	start_time = Time.get_ticks_msec()
 	$canvas.get_node("timer").visible = true
 	$canvas.get_node("deaths").visible = true
 	
 func _process(_delta):
+	if is_end:
+		return
+		
 	var elapsed = Time.get_ticks_msec() - start_time
 	var seconds = elapsed / 1000
 	var minutes = seconds / 60
@@ -60,9 +69,21 @@ func complete_level():
 	await get_tree().create_timer(1.5).timeout
 	curr = load("res://scenes/level_blue.tscn")
 	is_result = true
-	get_child(2).queue_free()
+	get_child(3).queue_free()
 	add_child(curr.instantiate())
 	result.visible = true
+	
+func complete_level_blue():
+	cutout.fade_out()
+	
+	await get_tree().create_timer(1.5).timeout
+	curr = load("res://scenes/end_game.tscn")
+	is_result = false
+	get_child(3).queue_free()
+	add_child(curr.instantiate())
+	result.visible = false
+	cutout.fade_in()
+	is_end = true
 	
 
 
@@ -70,6 +91,10 @@ func reload():
 	death_count += 1
 	$canvas.get_node("deaths").text = "[right]{a}[/right]".format({"a": death_count})
 	
-	get_child(2).queue_free()
+	get_child(3).queue_free()
 	add_child(curr.instantiate())
 	$global_cam.enabled = false
+
+
+func _on_audio_stream_player_finished():
+	$AudioStreamPlayer.play()

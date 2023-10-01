@@ -1,16 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://dwi4jnrpult3r"]
+[gd_scene load_steps=6 format=3 uid="uid://dwi4jnrpult3r"]
 
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_1uut8"]
 [ext_resource type="PackedScene" uid="uid://dsc7eric2yses" path="res://scenes/cutout.tscn" id="2_eyrw6"]
 [ext_resource type="PackedScene" uid="uid://2actbmfggwr7" path="res://scenes/intro.tscn" id="2_orq7s"]
+[ext_resource type="AudioStream" uid="uid://dskh10nsd85bq" path="res://assets/track.mp3" id="2_yql7h"]
 [ext_resource type="Theme" uid="uid://dqosqwgwrjv6w" path="res://assets/theme.tres" id="3_4gi3g"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_1uut8")
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_yql7h")
+autoplay = true
+
 [node name="canvas" type="CanvasLayer" parent="."]
 
 [node name="timer" type="RichTextLabel" parent="canvas"]
+visible = false
 offset_left = 8.0
 offset_right = 80.0
 offset_bottom = 24.0
@@ -18,6 +24,7 @@ theme = ExtResource("3_4gi3g")
 text = "01:01:01"
 
 [node name="deaths" type="RichTextLabel" parent="canvas"]
+visible = false
 offset_left = 400.0
 offset_right = 472.0
 offset_bottom = 24.0
@@ -45,3 +52,5 @@ enabled = false
 
 [node name="intro" parent="." instance=ExtResource("2_orq7s")]
 position = Vector2(2.08165e-12, 2.08165e-12)
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

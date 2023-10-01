@@ -227,3 +227,9 @@ func _on_complete(body):
 	if body is CharacterBody2D:
 		ignore_inputs = true
 		world.complete_level()
+
+
+func _on_complete_blue(body):
+	if body is CharacterBody2D:
+		ignore_inputs = true
+		world.complete_level_blue()

@@ -1702,7 +1702,7 @@ position = Vector2(3861, 27)
 movement_data = SubResource("Resource_duf2e")
 
 [node name="Player" parent="." instance=ExtResource("2_ewt1m")]
-position = Vector2(-56, 200)
+position = Vector2(-48, 200)
 movement_data = SubResource("Resource_6it5b")
 
 [node name="respawn" type="Node2D" parent="."]
