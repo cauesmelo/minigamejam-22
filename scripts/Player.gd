@@ -6,6 +6,9 @@ var air_jump = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var Colors = preload("res://scripts/colors.gd").names
 
+var is_dead = false
+var wait_death = 0.2
+
 @onready var animated_sprite_2d = $sprite
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var starting_position = global_position
@@ -13,6 +16,11 @@ var Colors = preload("res://scripts/colors.gd").names
 var color = Colors.WHITE
 
 func _physics_process(delta):
+	
+	if is_dead:
+		handle_death(delta)
+		return
+	
 	apply_gravity(delta)
 	handle_jump()
 	var input_axis = Input.get_axis("mv_left", "mv_right")
@@ -72,3 +80,23 @@ func update_animations(input_axis):
 
 func _on_hazard_detector_area_entered(_area):
 	global_position = starting_position
+	
+func handle_death(delta):
+	wait_death -= delta
+	
+	if wait_death < 0:
+		velocity.y += gravity * movement_data.gravity_scale * delta
+		velocity.x = 0
+		move_and_slide()
+	
+
+func die():
+	is_dead = true
+	$collision.disabled = true
+	velocity.y = movement_data.jump_velocity
+	$sprite.stop()
+	$cam.enabled = false
+	var world = get_tree().get_root().get_child(1)
+	var global_cam = world.get_node("global_cam")
+	global_cam.position = position
+	global_cam.enabled = true

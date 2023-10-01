@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://nogik08hllcs"]
+[gd_scene load_steps=22 format=3 uid="uid://nogik08hllcs"]
 
 [ext_resource type="Script" path="res://scripts/soldier.gd" id="1_7tr1j"]
 [ext_resource type="Texture2D" uid="uid://iynamxjfniht" path="res://assets/inimigo_verde.png" id="1_mp10q"]
@@ -37,18 +37,6 @@ region = Rect2(430, 0, 86, 67)
 [sub_resource type="AtlasTexture" id="AtlasTexture_yhfxe"]
 atlas = ExtResource("1_mp10q")
 region = Rect2(516, 0, 86, 67)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yoeoq"]
-atlas = ExtResource("1_mp10q")
-region = Rect2(602, 0, 86, 67)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qylwu"]
-atlas = ExtResource("1_mp10q")
-region = Rect2(688, 0, 86, 67)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_af5rd"]
-atlas = ExtResource("1_mp10q")
-region = Rect2(774, 0, 86, 67)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pql4n"]
 atlas = ExtResource("1_mp10q")
@@ -105,19 +93,10 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yhfxe")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yoeoq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qylwu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_af5rd")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
-"speed": 5.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -164,8 +143,10 @@ movement_data = SubResource("Resource_mb55o")
 [node name="sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-5, -7)
 sprite_frames = SubResource("SpriteFrames_fwg8g")
-animation = &"run"
+animation = &"attack"
 autoplay = "idle"
+frame = 6
+frame_progress = 1.0
 
 [node name="collision" type="CollisionShape2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)
@@ -173,13 +154,14 @@ shape = SubResource("RectangleShape2D_5blir")
 
 [node name="raycast2" type="RayCast2D" parent="."]
 position = Vector2(0, -12)
-target_position = Vector2(-100, 2.08165e-12)
+target_position = Vector2(-200, 2.08165e-12)
 
 [node name="raycast" type="RayCast2D" parent="."]
 position = Vector2(0, 18)
-target_position = Vector2(-100, 2.08165e-12)
+target_position = Vector2(-200, 2.08165e-12)
 
 [node name="text" type="RichTextLabel" parent="."]
+visible = false
 offset_left = -16.0
 offset_top = -48.0
 offset_right = 104.0

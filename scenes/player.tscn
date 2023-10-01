@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://cs064gc5ciweg"]
+[gd_scene load_steps=21 format=3 uid="uid://cs064gc5ciweg"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_1ybfg"]
 [ext_resource type="Script" path="res://scripts/player_movement_data.gd" id="2_40h82"]
 [ext_resource type="Texture2D" uid="uid://cto7fqdkf6wrb" path="res://assets/rubik.png" id="2_51lpf"]
+[ext_resource type="FontFile" uid="uid://b2eveva78xecr" path="res://assets/font.ttf" id="4_rk1px"]
 
 [sub_resource type="Resource" id="Resource_25b5o"]
 script = ExtResource("2_40h82")
@@ -120,6 +121,10 @@ animations = [{
 "speed": 6.0
 }]
 
+[sub_resource type="Theme" id="Theme_at5pu"]
+default_font = ExtResource("4_rk1px")
+default_font_size = 32
+
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_1ybfg")
@@ -134,7 +139,7 @@ sprite_frames = SubResource("SpriteFrames_vybhr")
 animation = &"run"
 autoplay = "idle"
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="cam" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 
 [node name="CoyoteJumpTimer" type="Timer" parent="."]
@@ -147,3 +152,13 @@ offset_bottom = -12.0
 theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 text = "[center]white[/center]"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="txt" type="RichTextLabel" parent="CanvasLayer"]
+offset_top = 16.0
+offset_right = 480.0
+offset_bottom = 256.0
+theme = SubResource("Theme_at5pu")
+bbcode_enabled = true
+text = "[center]Use the arrows to move[/center]"
