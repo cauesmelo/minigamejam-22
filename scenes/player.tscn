@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=3 uid="uid://cs064gc5ciweg"]
+[gd_scene load_steps=82 format=3 uid="uid://cs064gc5ciweg"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_1ybfg"]
 [ext_resource type="Script" path="res://scripts/player_movement_data.gd" id="2_40h82"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://cglnhtw64npjh" path="res://assets/rubik_green.png" id="3_w14hp"]
 [ext_resource type="Texture2D" uid="uid://d0krmnb8kpald" path="res://assets/rubik_storm.png" id="4_xqbn2"]
 [ext_resource type="Texture2D" uid="uid://djxie6ymvmmg" path="res://assets/rubik_blue.png" id="6_tp02v"]
-[ext_resource type="Theme" uid="uid://dqosqwgwrjv6w" path="res://assets/theme.tres" id="7_r6xxo"]
 
 [sub_resource type="Resource" id="Resource_25b5o"]
 script = ExtResource("2_40h82")
@@ -17,6 +16,9 @@ jump_velocity = -450.0
 gravity_scale = 0.9
 air_resistance = 200.0
 air_acceleration = 400.0
+green_enabled = false
+blue_enabled = false
+double_jump_enabled = false
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qo47r"]
 radius = 13.0
@@ -691,17 +693,6 @@ offset_bottom = -12.0
 theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 text = "[center]white[/center]"
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="txt" type="RichTextLabel" parent="CanvasLayer"]
-offset_top = 16.0
-offset_right = 480.0
-offset_bottom = 256.0
-theme = ExtResource("7_r6xxo")
-bbcode_enabled = true
-text = "[center]Use the arrows to move[/center]"
 
 [connection signal="animation_finished" from="sprite_white" to="." method="_on_sprite_animation_finished"]
 [connection signal="animation_finished" from="sprite_green" to="." method="_on_sprite_animation_finished"]

@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var movement_data : PlayerMovementData
 
 var air_jump = false
+var double_jumped = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var is_dead = false
@@ -60,7 +61,9 @@ func apply_gravity(delta):
 		velocity.y += gravity * movement_data.gravity_scale * delta
 
 func handle_jump():
-	if is_on_floor(): air_jump = true
+	if is_on_floor(): 
+		air_jump = true
+		double_jumped = false
 	
 	if is_on_floor() or coyote_jump_timer.time_left > 0.0:
 		if Input.is_action_pressed("mv_up"):
@@ -69,14 +72,21 @@ func handle_jump():
 	elif not is_on_floor():
 		if Input.is_action_just_released("mv_up") and velocity.y < movement_data.jump_velocity / 2:
 			velocity.y = movement_data.jump_velocity / 2
+		if Input.is_action_just_pressed("mv_up") and not double_jumped and color == "white":
+			velocity.y = movement_data.jump_velocity / 1.5
+			double_jumped = true
 
 func handle_acceleration(input_axis, delta):
-	if not is_on_floor(): return
+	if not is_on_floor(): 
+		return
+		
 	if input_axis != 0:
 		velocity.x = move_toward(velocity.x, movement_data.speed * input_axis, movement_data.acceleration * delta)
 
 func handle_air_acceleration(input_axis, delta):
-	if is_on_floor(): return
+	if is_on_floor(): 
+		return
+		
 	if input_axis != 0:
 		velocity.x = move_toward(velocity.x, movement_data.speed * input_axis, movement_data.air_acceleration * delta)
 
@@ -142,7 +152,7 @@ func die():
 
 
 func respawn():
-	get_tree().reload_current_scene()
+	world.reload()
 
 	
 func handle_switch_color():
@@ -158,7 +168,7 @@ func handle_switch_color():
 		elif color == "blue":
 			switch_color("white")
 	
-		switch_cooldown = 5.0
+		switch_cooldown = 2.0
 			
 	
 func switch_color(color_to):
