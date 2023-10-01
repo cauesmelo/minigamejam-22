@@ -12,17 +12,20 @@ var is_storming = false
 var storm_from
 var storm_to
 var storm_timer = 0
+var switch_cooldown = 0
 
 @onready var world = get_tree().get_root().get_child(1)
 @onready var global_cam = world.get_node("global_cam")
 @onready var animated_sprite_2d = $sprite_white
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var starting_position = global_position
-@onready var sprites = [$sprite_white, $sprite_green]
+@onready var sprites = [$sprite_white, $sprite_green, $sprite_blue]
 
 var color = "white"
 
 func _physics_process(delta):
+	if switch_cooldown > 0:
+		switch_cooldown -= delta
 	
 	if is_dead:
 		handle_death(delta)
@@ -151,11 +154,19 @@ func respawn():
 	wait_death = 0.2
 	
 func handle_switch_color():
+	if switch_cooldown > 0:
+		# TODO play error sound
+		return
+		
 	if Input.is_action_just_pressed("mv_action"):
 		if color == "white":
 			switch_color("green")
 		elif color == "green":
+			switch_color("blue")
+		elif color == "blue":
 			switch_color("white")
+	
+		switch_cooldown = 5.0
 			
 	
 func switch_color(color_to):
@@ -164,9 +175,6 @@ func switch_color(color_to):
 	storm_to = color_to
 		
 	animated_sprite_2d.play("storm_in")
-
-	color = color_to
-	$color.text = color_to
 	
 	
 func _on_sprite_animation_finished():
@@ -181,12 +189,16 @@ func _on_sprite_animation_finished():
 			
 		if curr == "storm":
 			animated_sprite_2d.visible = false
+			color = storm_to
 				
 			if storm_to == "green":
 				animated_sprite_2d = $sprite_green
 			
 			if storm_to == "white":
 				animated_sprite_2d = $sprite_white
+				
+			if storm_to == "blue":
+				animated_sprite_2d = $sprite_blue
 				
 				
 			animated_sprite_2d.visible = true

@@ -10,6 +10,7 @@ script = ExtResource("2_wkhl4")
 speed = 100.0
 acceleration = 800.0
 flip_time = 3.0
+color = "green"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rxe85"]
 atlas = ExtResource("1_mp10q")

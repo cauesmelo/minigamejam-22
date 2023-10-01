@@ -58,6 +58,9 @@ func check_collision():
 			
 			if collider.name != "Player":
 				break
+				
+			if collider.color == movement_data.color:
+				break
 			
 			txt.text = collider.name
 			raycast.enabled = false
