@@ -12,11 +12,46 @@ var moving_timer = 0.0
 var atk = false
 var target
 
+var opacity_mult = 1
+
 func _ready():
+	if movement_data.no_walking:
+		$sprite.play("idle")
+		return
+		
 	$sprite.play("run")
+	
+
+func _process(delta):
+	var cone
+	
+	if $cone_right.visible:
+		cone = $cone_right
+	else:
+		cone = $cone_left
+		
+	var new_val = cone.modulate.a + (delta * opacity_mult)
+	
+	if new_val > 1:
+		cone.modulate.a = 1
+		opacity_mult = -1
+	elif new_val < 0:
+		cone.modulate.a = 0
+		opacity_mult = 1
+	else:
+		cone.modulate.a = new_val
 
 
 func _physics_process(delta):
+	if movement_data.no_walking:
+		check_collision()
+		
+		if atk:
+			handle_atk(delta)
+			move_and_slide()
+			
+		return
+		
 	moving_timer += delta
 	
 	if atk:

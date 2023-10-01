@@ -142,16 +142,8 @@ func die():
 
 
 func respawn():
-	var pos = get_parent().get_node("respawn").position
-	position = pos
-	is_dead = false
-	$collision.disabled = false
-	animated_sprite_2d.play("idle")
-	$cam.enabled = true
-	global_cam.enabled = false
-	velocity.y = 0
-	wait_respawn = 1.5
-	wait_death = 0.2
+	get_tree().reload_current_scene()
+
 	
 func handle_switch_color():
 	if switch_cooldown > 0:

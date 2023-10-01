@@ -1,12 +1,12 @@
-[gd_scene load_steps=84 format=3 uid="uid://cs064gc5ciweg"]
+[gd_scene load_steps=83 format=3 uid="uid://cs064gc5ciweg"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_1ybfg"]
 [ext_resource type="Script" path="res://scripts/player_movement_data.gd" id="2_40h82"]
 [ext_resource type="Texture2D" uid="uid://04sty82i2x56" path="res://assets/rubik_white.png" id="3_aj6k4"]
 [ext_resource type="Texture2D" uid="uid://cglnhtw64npjh" path="res://assets/rubik_green.png" id="3_w14hp"]
-[ext_resource type="FontFile" uid="uid://b2eveva78xecr" path="res://assets/font.ttf" id="4_rk1px"]
 [ext_resource type="Texture2D" uid="uid://d0krmnb8kpald" path="res://assets/rubik_storm.png" id="4_xqbn2"]
 [ext_resource type="Texture2D" uid="uid://djxie6ymvmmg" path="res://assets/rubik_blue.png" id="6_tp02v"]
+[ext_resource type="Theme" uid="uid://dqosqwgwrjv6w" path="res://assets/theme.tres" id="7_r6xxo"]
 
 [sub_resource type="Resource" id="Resource_25b5o"]
 script = ExtResource("2_40h82")
@@ -650,11 +650,8 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="Theme" id="Theme_at5pu"]
-default_font = ExtResource("4_rk1px")
-default_font_size = 32
-
 [node name="Player" type="CharacterBody2D"]
+z_index = 2
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_1ybfg")
 movement_data = SubResource("Resource_25b5o")
@@ -696,12 +693,13 @@ bbcode_enabled = true
 text = "[center]white[/center]"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="txt" type="RichTextLabel" parent="CanvasLayer"]
 offset_top = 16.0
 offset_right = 480.0
 offset_bottom = 256.0
-theme = SubResource("Theme_at5pu")
+theme = ExtResource("7_r6xxo")
 bbcode_enabled = true
 text = "[center]Use the arrows to move[/center]"
 

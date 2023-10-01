@@ -10,6 +10,7 @@ script = ExtResource("2_wkhl4")
 speed = 100.0
 acceleration = 800.0
 flip_time = 3.0
+no_walking = false
 color = "green"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rxe85"]
@@ -143,6 +144,7 @@ script = ExtResource("1_7tr1j")
 movement_data = SubResource("Resource_mb55o")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
+z_index = 2
 position = Vector2(-5, -7)
 sprite_frames = SubResource("SpriteFrames_fwg8g")
 animation = &"idle"
@@ -170,17 +172,11 @@ text = "null"
 
 [node name="cone_right" type="Sprite2D" parent="."]
 visible = false
-modulate = Color(1, 1, 1, 0.180392)
-position = Vector2(100.998, 2.4236)
-rotation = 0.131549
-scale = Vector2(1.42484, 0.984145)
-skew = 0.249928
+position = Vector2(104, 2)
 texture = ExtResource("4_q7sbt")
 flip_h = true
 
 [node name="cone_left" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.180392)
-position = Vector2(-113, 1)
-rotation = -0.120428
-scale = Vector2(1.46, 1)
+position = Vector2(-108.317, 1)
+scale = Vector2(1.03178, 1)
 texture = ExtResource("4_q7sbt")
