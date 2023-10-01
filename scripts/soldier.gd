@@ -31,6 +31,13 @@ func _physics_process(delta):
 		for raycast in raycasts:
 			raycast.target_position.x *= -1
 			
+		if direction == -1:
+			$cone_right.visible = false
+			$cone_left.visible = true
+		else:
+			$cone_left.visible = false
+			$cone_right.visible = true
+			
 	velocity.x = move_toward(velocity.x, speed * direction, acceleration * delta)
 	
 	velocity.y += gravity
@@ -40,6 +47,8 @@ func _physics_process(delta):
 func handle_atk(delta):
 	var t = delta * 8
 	self.position = self.position.lerp(target, t)
+	$cone_left.visible = false
+	$cone_right.visible = false
 	
 	
 func check_collision():

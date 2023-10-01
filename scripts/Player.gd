@@ -8,7 +8,10 @@ var Colors = preload("res://scripts/colors.gd").names
 
 var is_dead = false
 var wait_death = 0.2
+var wait_respawn = 1.5
 
+@onready var world = get_tree().get_root().get_child(1)
+@onready var global_cam = world.get_node("global_cam")
 @onready var animated_sprite_2d = $sprite
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var starting_position = global_position
@@ -34,6 +37,9 @@ func _physics_process(delta):
 	if just_left_ledge:
 		coyote_jump_timer.start()
 	update_animations(input_axis)
+	
+	if position.y > 300:
+		die()
 
 func apply_gravity(delta):
 	if not is_on_floor():
@@ -83,6 +89,11 @@ func _on_hazard_detector_area_entered(_area):
 	
 func handle_death(delta):
 	wait_death -= delta
+	wait_respawn -= delta
+	
+	if wait_respawn < 0:
+		respawn()
+		return
 	
 	if wait_death < 0:
 		velocity.y += gravity * movement_data.gravity_scale * delta
@@ -92,11 +103,23 @@ func handle_death(delta):
 
 func die():
 	is_dead = true
-	$collision.disabled = true
+	$collision.call_deferred("set_disabled", true)
 	velocity.y = movement_data.jump_velocity
 	$sprite.stop()
 	$cam.enabled = false
-	var world = get_tree().get_root().get_child(1)
-	var global_cam = world.get_node("global_cam")
 	global_cam.position = position
 	global_cam.enabled = true
+	print("matou")
+	print(get_stack())
+
+func respawn():
+	var pos = get_parent().get_node("respawn").position
+	position = pos
+	is_dead = false
+	$collision.disabled = false
+	$sprite.play("idle")
+	$cam.enabled = true
+	global_cam.enabled = false
+	velocity.y = 0
+	wait_respawn = 1.5
+	wait_death = 0.2

@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://nogik08hllcs"]
+[gd_scene load_steps=23 format=3 uid="uid://nogik08hllcs"]
 
 [ext_resource type="Script" path="res://scripts/soldier.gd" id="1_7tr1j"]
 [ext_resource type="Texture2D" uid="uid://iynamxjfniht" path="res://assets/inimigo_verde.png" id="1_mp10q"]
 [ext_resource type="Script" path="res://scripts/enemy_movement_data.gd" id="2_wkhl4"]
+[ext_resource type="Texture2D" uid="uid://qak3734x7k7x" path="res://assets/cone_de_visao.png" id="4_q7sbt"]
 
 [sub_resource type="Resource" id="Resource_mb55o"]
 script = ExtResource("2_wkhl4")
@@ -143,10 +144,8 @@ movement_data = SubResource("Resource_mb55o")
 [node name="sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-5, -7)
 sprite_frames = SubResource("SpriteFrames_fwg8g")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
-frame = 6
-frame_progress = 1.0
 
 [node name="collision" type="CollisionShape2D" parent="."]
 position = Vector2(2.08165e-12, 2.08165e-12)
@@ -167,3 +166,20 @@ offset_top = -48.0
 offset_right = 104.0
 offset_bottom = -17.0
 text = "null"
+
+[node name="cone_right" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.180392)
+position = Vector2(100.998, 2.4236)
+rotation = 0.131549
+scale = Vector2(1.42484, 0.984145)
+skew = 0.249928
+texture = ExtResource("4_q7sbt")
+flip_h = true
+
+[node name="cone_left" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.180392)
+position = Vector2(-113, 1)
+rotation = -0.120428
+scale = Vector2(1.46, 1)
+texture = ExtResource("4_q7sbt")
